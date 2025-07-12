@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-
+import bankLogo from "../assets/images/bob.png";
+import QRCodeImg from "../assets/images/pay-now.jpeg";
 const PayNowPage = () => {
   const [notification, setNotification] = useState("");
 
@@ -21,19 +22,13 @@ const PayNowPage = () => {
 
   const downloadQR = () => {
     const link = document.createElement("a");
-    link.href =
-      "https://www.sridurgaoffset.com/wp-content/uploads/2025/04/pay-now.jpeg";
+    link.href = "https://i.ibb.co/S4tm0tHk/pay-now.jpg";
     link.download = "sri-durga-offset-payment-qr.jpeg";
     link.click();
   };
 
   return (
-    <div
-      className="min-h-screen flex items-center justify-center p-3 relative overflow-hidden bg-gradient-to-r from-cyan-500 to-teal-600 "
-      style={{
-        background: "",
-      }}
-    >
+    <div className="min-h-screen flex items-center justify-center p-3 relative overflow-hidden bg-gradient-to-r from-cyan-500 to-teal-600 max-[450px]:mt-12 ">
       {/* Horizontal Bounce Keyframes */}
       <style>
         {`
@@ -78,7 +73,7 @@ const PayNowPage = () => {
         >
           <div className="absolute inset-0 bg-gradient-radial from-white/20 to-transparent animate-pulse" />
           <img
-            src="https://www.sridurgaoffset.com/wp-content/uploads/2025/05/bob.png"
+            src={bankLogo}
             alt="Bank of Baroda"
             className="w-40 h-auto mb-3 mx-auto relative z-10"
           />
@@ -177,7 +172,7 @@ const PayNowPage = () => {
                 🔥 Quick Pay with QR
               </h3>
               <img
-                src="https://www.sridurgaoffset.com/wp-content/uploads/2025/04/pay-now.jpeg"
+                src={QRCodeImg}
                 alt="Payment QR Code"
                 className="w-40 h-40 mx-auto mb-3 rounded-lg shadow-lg hover:scale-105 transition-transform duration-300"
               />
