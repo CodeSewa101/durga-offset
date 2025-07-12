@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaWhatsapp,
-  FaLinkedinIn,
-} from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaWhatsapp } from "react-icons/fa";
 import Logo from "../../../assets/images/sri-durga-logo.png";
 
 const Footer = () => {
@@ -36,7 +31,7 @@ const Footer = () => {
           <h3 className="font-semibold mb-1">Follow Us</h3>
           <div className="flex gap-3 text-gray-600">
             <a
-              href="https://facebook.com"
+              href="https://www.facebook.com/share/1CuEuiBgAN/"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-blue-600"
@@ -44,7 +39,7 @@ const Footer = () => {
               <FaFacebookF size={18} />
             </a>
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/sridurgaoffset?igsh=bTM3b3F5MTB6djNp"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-pink-500"
@@ -58,14 +53,6 @@ const Footer = () => {
               className="hover:text-green-500"
             >
               <FaWhatsapp size={18} />
-            </a>
-            <a
-              href="https://linkedin.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-blue-700"
-            >
-              <FaLinkedinIn size={18} />
             </a>
           </div>
         </div>
