@@ -1,6 +1,22 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import offsetMachine from "../assets/images/offset-machine.jpg";
+import offsetPrint1 from "../assets/images/Donation Receipt-1.png";
+import offsetPrint2 from "../assets/images/Hotel Register-1.png";
+import offsetPrint3 from "../assets/images/Leaflet Wall poster-1.png";
+import offsetPrint4 from "../assets/images/Challan Book-1.png";
 
+import flexMachine from "../assets/images/flex-machine.jpg";
+import flexprint1 from "../assets/images/flex-print-1.jpg";
+import flexprint2 from "../assets/images/flex-print-2.jpg";
+import flexprint3 from "../assets/images/flex-print-3.jpg";
+import flexprint4 from "../assets/images/flex-print-4.jpg";
+
+import digitalMachine from "../assets/images/digital-print.png";
+import digitalPrint1 from "../assets/Digital Card/card-7.png";
+import digitalPrint2 from "../assets/Digital Card/card-11.png";
+import digitalPrint3 from "../assets/Digital Card/card-12.png";
+import digitalPrint4 from "../assets/Digital Card/card-21.png";
 const OurPortfolio = () => {
   const [selectedImage, setSelectedImage] = useState(null);
 
@@ -8,8 +24,7 @@ const OurPortfolio = () => {
     {
       id: 1,
       name: "Offset Print Machine",
-      image:
-        "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?auto=format&fit=crop&w=1000&q=80",
+      image: offsetMachine,
       description:
         "Our state-of-the-art offset printing machine delivers exceptional quality for high-volume printing projects.",
       features: [
@@ -18,19 +33,13 @@ const OurPortfolio = () => {
         "Cost-effective for large runs",
         "Multiple paper size compatibility",
       ],
-      proofWork: [
-        "https://images.unsplash.com/photo-1752035197224-6e6bdc4f7fb1?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "https://via.placeholder.com/300x300?text=Book",
-        "https://via.placeholder.com/300x300?text=Catalog",
-        "https://via.placeholder.com/300x300?text=Poster",
-      ],
+      proofWork: [offsetPrint1, offsetPrint2, offsetPrint3, offsetPrint4],
       reverse: false,
     },
     {
       id: 2,
       name: "Flex Machine",
-      image:
-        "https://images.unsplash.com/photo-1586953208448-b95a79798f07?auto=format&fit=crop&w=1000&q=80",
+      image: flexMachine,
       description:
         "Our advanced flex printing machine specializes in large format outdoor advertising and signage.",
       features: [
@@ -39,19 +48,13 @@ const OurPortfolio = () => {
         "UV-stable inks",
         "Quick turnaround time",
       ],
-      proofWork: [
-        "https://via.placeholder.com/300x300?text=Banner",
-        "https://via.placeholder.com/300x300?text=Hoarding",
-        "https://via.placeholder.com/300x300?text=Signage",
-        "https://via.placeholder.com/300x300?text=Shop+Board",
-      ],
+      proofWork: [flexprint1, flexprint2, flexprint3, flexprint4],
       reverse: true,
     },
     {
       id: 3,
       name: "Digital Print Machine",
-      image:
-        "https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae?auto=format&fit=crop&w=1000&q=80",
+      image: digitalMachine,
       description:
         "Our digital printing tech offers unmatched flexibility for short-run jobs and personalized printing.",
       features: [
@@ -60,12 +63,7 @@ const OurPortfolio = () => {
         "Cost-effective for short runs",
         "High-resolution output",
       ],
-      proofWork: [
-        "https://via.placeholder.com/300x300?text=Business+Card",
-        "https://via.placeholder.com/300x300?text=Flyer",
-        "https://via.placeholder.com/300x300?text=Letterhead",
-        "https://via.placeholder.com/300x300?text=Custom",
-      ],
+      proofWork: [digitalPrint1, digitalPrint2, digitalPrint3, digitalPrint4],
       reverse: false,
     },
   ];
