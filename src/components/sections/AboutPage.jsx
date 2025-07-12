@@ -1,5 +1,5 @@
 import React from "react";
-
+import officeImage from "../../assets/images/sri-durga-offset-office.jpg";
 function AboutPage() {
   return (
     <div>
@@ -125,7 +125,7 @@ function AboutPage() {
                   {/* Main Image */}
                   <div className="relative bg-gradient-to-br from-teal-100 to-cyan-100 rounded-2xl overflow-hidden shadow-2xl">
                     <img
-                      src="https://www.sridurgaoffset.com/wp-content/uploads/2025/05/sri-durga-offset.jpg"
+                      src={officeImage}
                       alt="Sri Durga Offset Printing Services"
                       className="w-full h-80 sm:h-96 lg:h-[500px] object-cover"
                     />
