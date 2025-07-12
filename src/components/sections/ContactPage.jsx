@@ -164,16 +164,16 @@ const ContactPage = () => {
 
               <div className="relative h-96 rounded-lg overflow-hidden">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3798.123456789!2d84.123456789!3d19.123456789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDA3JzI0LjQiTiA4NMKwMDcnMjQuNCJF!5e0!3m2!1sen!2sin!4v1234567890123!5m2!1sen!2sin"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3771.801520053509!2d84.78865507412392!3d19.313039981938425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a3d500cfdd16aa5%3A0xd4c409f645c58d85!2sSpectrum%20Apartment%2C%20Near%2C%20R.%20C%2C%20Church%20Road%2C%20Brahmapur%2C%20Odisha%20760001!5e0!3m2!1sen!2sin!4v1699467437800!5m2!1sen!2sin"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
                   allowFullScreen=""
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  className="rounded-lg"
                   title="Sri Durga Offset Location"
-                ></iframe>
+                  className="rounded-lg"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none rounded-lg"></div>
               </div>
             </div>
