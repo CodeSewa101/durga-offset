@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import invitationCard1 from "../../assets/Digital Card/card-13.0.png";
+
+import offsetMachine from "../../assets/images/Offset-Print-1.jpg";
+import flexprint4 from "../../assets/images/flex-print-4.jpg";
 
 const PrintingShop = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const navigate = useNavigate();
 
   const slides = [
     {
@@ -10,14 +16,9 @@ const PrintingShop = () => {
       subtitle: "Wedding & Event Printing",
       description:
         "Beautiful custom invitation cards with premium paper quality and stunning designs for your special occasions.",
-      buttons: ["VIEW DESIGNS"],
+      buttons: [{ text: "VIEW DESIGNS", link: "/invitation" }],
       printingType: "invitation-cards",
-      images: [
-        "https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?q=80&w=1000&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1516627145497-ae4099d6d529?q=80&w=1000&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=1000&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1600298881974-6be191ceeda1?q=80&w=1000&auto=format&fit=crop",
-      ],
+      images: [invitationCard1],
     },
     {
       id: 2,
@@ -25,14 +26,9 @@ const PrintingShop = () => {
       subtitle: "High Quality Bulk Printing",
       description:
         "Professional offset printing for books, brochures, catalogs, and business materials with precise color matching.",
-      buttons: ["OFFSET SERVICES"],
+      buttons: [{ text: "OFFSET SERVICES", link: "/offset" }],
       printingType: "offset-printing",
-      images: [
-        "https://images.unsplash.com/photo-1503694978374-8a2fa686963a?q=80&w=1000&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1581079289196-67865ea83118?q=80&w=1000&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1693031630177-b897fb9d7154?q=80&w=1000&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1516627145497-ae4099d6d529?q=80&w=1000&auto=format&fit=crop",
-      ],
+      images: [offsetMachine],
     },
     {
       id: 3,
@@ -40,14 +36,9 @@ const PrintingShop = () => {
       subtitle: "Large Format Solutions",
       description:
         "Eye-catching flex banners for advertising, events, and promotions with weather-resistant materials.",
-      buttons: ["FLEX PRINTING"],
+      buttons: [{ text: "FLEX PRINTING", link: "/flex" }],
       printingType: "flex-banner",
-      images: [
-        "https://images.unsplash.com/photo-1600298881974-6be191ceeda1?q=80&w=1000&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=1000&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1516627145497-ae4099d6d529?q=80&w=1000&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1503694978374-8a2fa686963a?q=80&w=1000&auto=format&fit=crop",
-      ],
+      images: [flexprint4],
     },
   ];
 
@@ -71,11 +62,16 @@ const PrintingShop = () => {
 
   const currentSlideData = slides[currentSlide];
 
-  // Image gallery component
-  const ImageGallery = ({ images, slideIndex }) => {
+  // Single image display component
+  const SingleImageDisplay = ({ images, slideIndex }) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [loadedImages, setLoadedImages] = useState(new Set());
     const [imageCache, setImageCache] = useState(new Map());
+
+    // Reset to first image when slide changes
+    useEffect(() => {
+      setCurrentImageIndex(0);
+    }, [slideIndex]);
 
     // Preload images silently in background
     useEffect(() => {
@@ -96,14 +92,6 @@ const PrintingShop = () => {
       });
     }, [images]);
 
-    // Start cycling images immediately
-    useEffect(() => {
-      const imageInterval = setInterval(() => {
-        setCurrentImageIndex((prev) => (prev + 1) % images.length);
-      }, 3000);
-      return () => clearInterval(imageInterval);
-    }, [images.length]);
-
     const getImageSrc = (index) => {
       return (
         imageCache.get(index) ||
@@ -115,6 +103,16 @@ const PrintingShop = () => {
 
     const isImageLoaded = (index) => {
       return loadedImages.has(index);
+    };
+
+    const nextImage = () => {
+      setCurrentImageIndex((prev) => (prev + 1) % images.length);
+    };
+
+    const prevImage = () => {
+      setCurrentImageIndex(
+        (prev) => (prev - 1 + images.length) % images.length
+      );
     };
 
     return (
@@ -171,64 +169,67 @@ const PrintingShop = () => {
               </div>
             </div>
 
-            {/* Image indicators */}
-            <div className="absolute top-3 sm:top-4 right-3 sm:right-4 flex space-x-1">
-              {images.map((_, index) => (
-                <div
-                  key={index}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    index === currentImageIndex ? "bg-white" : "bg-white/50"
-                  }`}
-                />
-              ))}
-            </div>
+            {/* Image Navigation Arrows - Only show if more than 1 image */}
+            {images.length > 1 && (
+              <>
+                <button
+                  onClick={prevImage}
+                  className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all duration-300 z-10"
+                >
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 19l-7-7 7-7"
+                    />
+                  </svg>
+                </button>
+
+                <button
+                  onClick={nextImage}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all duration-300 z-10"
+                >
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </button>
+              </>
+            )}
+
+            {/* Image indicators - Only show if more than 1 image */}
+            {images.length > 1 && (
+              <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                {images.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentImageIndex(index)}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      index === currentImageIndex ? "bg-white" : "bg-white/50"
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Floating thumbnail images - Only show on larger screens */}
+          {/* Decorative elements for desktop */}
           <div className="hidden lg:block">
-            <div className="absolute -top-6 -right-6 w-12 h-12 xl:w-16 xl:h-16 rounded-lg overflow-hidden shadow-lg animate-bounce bg-gradient-to-br from-teal-500 to-cyan-500">
-              <img
-                src={getImageSrc((currentImageIndex + 1) % images.length)}
-                alt="Thumbnail"
-                className={`w-full h-full object-cover transition-opacity duration-500 ${
-                  isImageLoaded((currentImageIndex + 1) % images.length)
-                    ? "opacity-100"
-                    : "opacity-0"
-                }`}
-              />
-            </div>
-
-            <div
-              className="absolute -bottom-6 -left-6 w-16 h-16 xl:w-20 xl:h-20 rounded-lg overflow-hidden shadow-lg animate-bounce bg-gradient-to-br from-cyan-500 to-blue-500"
-              style={{ animationDelay: "0.5s" }}
-            >
-              <img
-                src={getImageSrc((currentImageIndex + 2) % images.length)}
-                alt="Thumbnail"
-                className={`w-full h-full object-cover transition-opacity duration-500 ${
-                  isImageLoaded((currentImageIndex + 2) % images.length)
-                    ? "opacity-100"
-                    : "opacity-0"
-                }`}
-              />
-            </div>
-
-            <div
-              className="absolute -top-4 -left-8 w-10 h-10 xl:w-12 xl:h-12 rounded-full overflow-hidden shadow-lg animate-pulse bg-gradient-to-br from-emerald-500 to-teal-500"
-              style={{ animationDelay: "1s" }}
-            >
-              <img
-                src={getImageSrc((currentImageIndex + 3) % images.length)}
-                alt="Thumbnail"
-                className={`w-full h-full object-cover transition-opacity duration-500 ${
-                  isImageLoaded((currentImageIndex + 3) % images.length)
-                    ? "opacity-100"
-                    : "opacity-0"
-                }`}
-              />
-            </div>
-
-            {/* Decorative elements */}
             <div className="absolute -top-3 -right-3 text-yellow-400 animate-twinkle">
               <svg
                 className="w-5 h-5 xl:w-6 xl:h-6"
@@ -274,6 +275,10 @@ const PrintingShop = () => {
         </div>
       </div>
     );
+  };
+
+  const handleButtonClick = (link) => {
+    navigate(link);
   };
 
   return (
@@ -395,7 +400,7 @@ const PrintingShop = () => {
           {/* Mobile Layout (Stack vertically) */}
           <div className="flex flex-col lg:hidden items-center justify-center space-y-8 sm:space-y-12 py-16 sm:py-20 mt-8 sm:mt-12">
             <div className="w-full max-w-sm">
-              <ImageGallery
+              <SingleImageDisplay
                 images={currentSlideData.images}
                 slideIndex={currentSlide}
               />
@@ -418,12 +423,13 @@ const PrintingShop = () => {
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
-                  {currentSlideData.buttons.map((buttonText, index) => (
+                  {currentSlideData.buttons.map((button, index) => (
                     <button
                       key={index}
+                      onClick={() => handleButtonClick(button.link)}
                       className="bg-gradient-to-r from-cyan-500 to-teal-600 hover:from-cyan-600 hover:to-teal-700 text-white px-6 py-3 rounded-lg font-semibold text-base transition-all duration-300 transform hover:scale-105 shadow-lg"
                     >
-                      {buttonText}
+                      {button.text}
                     </button>
                   ))}
                 </div>
@@ -434,7 +440,7 @@ const PrintingShop = () => {
           {/* Desktop Layout (Side by side) */}
           <div className="hidden lg:flex items-center justify-between min-h-screen">
             <div className="flex-1 flex justify-center xl:justify-start">
-              <ImageGallery
+              <SingleImageDisplay
                 images={currentSlideData.images}
                 slideIndex={currentSlide}
               />
@@ -457,12 +463,13 @@ const PrintingShop = () => {
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center xl:justify-start">
-                  {currentSlideData.buttons.map((buttonText, index) => (
+                  {currentSlideData.buttons.map((button, index) => (
                     <button
                       key={index}
+                      onClick={() => handleButtonClick(button.link)}
                       className="bg-gradient-to-r from-cyan-500 to-teal-600 hover:from-cyan-600 hover:to-teal-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
                     >
-                      {buttonText}
+                      {button.text}
                     </button>
                   ))}
                 </div>
