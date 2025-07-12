@@ -136,18 +136,6 @@ const Invitation = () => {
               <span className="relative z-10">Explore Our Designs</span>
               <span className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
             </motion.button>
-            
-            {/* <motion.button
-              whileHover={{
-                scale: 1.05,
-                boxShadow: "0 10px 25px rgba(20, 184, 166, 0.3)"
-              }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => navigate("/confirmation")}
-              className="px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/30 text-white font-semibold rounded-xl text-lg shadow-xl backdrop-blur-sm transition-all"
-            >
-              <span className="relative z-10">Order Now</span>
-            </motion.button> */}
           </div>
 
           <motion.div
@@ -232,7 +220,7 @@ const Invitation = () => {
                   onMouseEnter={() => setHoveredCard(index)}
                   onMouseLeave={() => setHoveredCard(null)}
                 >
-                  <div className="relative aspect-w-1 aspect-h-1 overflow-hidden">
+                  <div className="relative h-64 overflow-hidden">
                     <img
                       src={img.url}
                       alt={img.title}
