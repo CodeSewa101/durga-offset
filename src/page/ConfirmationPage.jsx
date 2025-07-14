@@ -7,39 +7,55 @@ const ConfirmationPage = () => {
   const location = useLocation();
   const image = location.state?.image;
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState("1");
 
-  // WhatsApp configuration
-  const SHOP_OWNER_WHATSAPP = "8658354878";
+  // WhatsApp configuration - Owner's verified number
+  const SHOP_OWNER_WHATSAPP = "8984564222"; 
+  const COUNTRY_CODE = "91"; // India
 
   const sendWhatsAppMessage = (orderData) => {
-    // Format the order items
-    const orderItems = Object.entries({
-      invitation: orderData.invitation,
-      pamphlets: orderData.pamphlets,
-      bill: orderData.bill,
-      flex: orderData.flex,
-      other: orderData.other
-    })
-      .filter(([_, val]) => val)
-      .map(([key]) => 
-        key === "bill" ? "Bill/Receipt Book" : 
-        key.charAt(0).toUpperCase() + key.slice(1)
-      )
-      .join(", ");
+    // Format selected items with proper labels
+    const orderTypes = [
+      { key: "invitation", label: "Invitation Card" },
+      { key: "pamphlets", label: "Pamphlets" },
+      { key: "bill", label: "Bill/Receipt Book" },
+      { key: "flex", label: "Flex/Banner" },
+      { key: "other", label: "Other" }
+    ].filter(type => orderData[type.key]).map(type => type.label);
 
-    // Create the message
-    const message = `New Order Received!%0A%0A
-      *Name:* ${orderData.name}%0A
-      *WhatsApp:* ${orderData.whatsapp}%0A
-      *Email:* ${orderData.email || 'Not provided'}%0A
-      *Order For:* ${orderItems}%0A
-      *Quantity:* ${orderData.quantity}%0A
-      *Design Title:* ${orderData.designTitle}%0A
-      *Design Image:* ${orderData.designUrl}`;
+    // Create perfectly formatted WhatsApp message
+    const messageLines = [
+      "🌟 *NEW ORDER CONFIRMATION* 🌟",
+      "",
+      `👤 *Customer:* ${orderData.name}`,
+      `📞 *WhatsApp:* ${orderData.whatsapp}`,
+      `📧 *Email:* ${orderData.email || "Not provided"}`,
+      "",
+      "🛍️ *Order Details:*",
+      `- Type: ${orderTypes.join(", ") || "Not specified"}`,
+      `- Quantity: ${orderData.quantity}`,
+      "",
+      "🎨 *Design Info:*",
+      `- Title: ${orderData.designTitle}`,
+      `- Reference: ${orderData.designUrl ? "Attached" : "Not provided"}`
+    ];
 
-    // Open WhatsApp with the message
-    window.open(`https://wa.me/${SHOP_OWNER_WHATSAPP}?text=${message}`, '_blank');
+    // Encode message for URL
+    const encodedMessage = encodeURIComponent(messageLines.join("\n"));
+    
+    // Create WhatsApp URL with safety checks
+    const whatsappUrl = `https://wa.me/${COUNTRY_CODE}${SHOP_OWNER_WHATSAPP}?text=${encodedMessage}`;
+    
+    // Debugging
+    console.debug("WhatsApp Message:", messageLines.join("\n"));
+    console.debug("Generated URL:", whatsappUrl);
+
+    // Open WhatsApp in new tab
+    window.open(
+      whatsappUrl,
+      "_blank",
+      "noopener,noreferrer,width=600,height=800"
+    );
   };
 
   const handleSubmit = async (e) => {
@@ -47,39 +63,53 @@ const ConfirmationPage = () => {
     setIsSubmitting(true);
 
     try {
-      // Prepare order data directly from form
+      // Validate and collect form data
       const form = e.target;
       const orderData = {
-        name: form.name.value,
-        whatsapp: form.whatsapp.value,
-        email: form.email.value,
+        name: form.name.value.trim(),
+        whatsapp: form.whatsapp.value.trim(),
+        email: form.email.value.trim(),
         invitation: form.invitation.checked,
         pamphlets: form.pamphlets.checked,
         bill: form.bill.checked,
         flex: form.flex.checked,
         other: form.other.checked,
-        quantity: quantity,
-        designTitle: image?.title || "Untitled",
-        designUrl: image?.url || "https://placehold.co/300x400"
+        quantity: Math.max(1, parseInt(quantity) || 1),
+        designTitle: image?.title || "Untitled Design",
+        designUrl: image?.url || null
       };
 
-      // Send WhatsApp message
+      // Verify critical data
+      if (!orderData.name || !orderData.whatsapp) {
+        throw new Error("Name and WhatsApp are required");
+      }
+
+      // Send to WhatsApp
       sendWhatsAppMessage(orderData);
       
-      toast.success("Order confirmed! WhatsApp message sent to shop owner.");
+      // Success feedback
+      toast.success("✅ Order confirmed! Opening WhatsApp...", {
+        autoClose: 3000
+      });
+
     } catch (error) {
-      console.error("Order Submission Error:", error);
-      toast.error("Failed to submit order. Please try again.");
+      console.error("Submission error:", error);
+      toast.error(`❌ ${error.message || "Order failed. Please try again."}`, {
+        autoClose: 5000
+      });
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleQuantityChange = (action) => {
-    if (action === "increment") {
-      setQuantity(prev => prev + 1);
-    } else if (action === "decrement" && quantity > 1) {
-      setQuantity(prev => prev - 1);
+  const handleQuantityChange = (e) => {
+    const value = e.target.value.replace(/\D/g, ""); // Numbers only
+    setQuantity(value || "1"); // Default to 1 if empty
+  };
+
+  const handleQuantityBlur = () => {
+    if (!quantity || parseInt(quantity) < 1) {
+      setQuantity("1");
     }
   };
 
@@ -91,7 +121,7 @@ const ConfirmationPage = () => {
             Order Confirmation
           </h1>
           <p className="mt-3 text-xl text-gray-600">
-            Please fill in your details to complete the order
+            Complete your order details
           </p>
         </div>
 
@@ -102,7 +132,7 @@ const ConfirmationPage = () => {
                 <div className="relative w-full max-w-xs mx-auto">
                   <img
                     src={image.url}
-                    alt="Confirmed Design"
+                    alt="Selected Design"
                     className="w-full h-auto rounded-lg shadow-lg border-4 border-white transform hover:scale-105 transition-transform duration-300"
                     onError={(e) => {
                       e.target.src = "https://placehold.co/300x400?text=Design+Image";
@@ -131,6 +161,7 @@ const ConfirmationPage = () => {
                       type="text"
                       name="name"
                       required
+                      minLength={2}
                       className="w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                       placeholder="Your full name"
                     />
@@ -144,8 +175,9 @@ const ConfirmationPage = () => {
                       type="tel"
                       name="whatsapp"
                       required
+                      pattern="[0-9]{10,}"
                       className="w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                      placeholder="Your WhatsApp number"
+                      placeholder="10-digit WhatsApp number"
                     />
                   </div>
 
@@ -173,26 +205,18 @@ const ConfirmationPage = () => {
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Quantity <span className="text-red-500">*</span>
                     </label>
-                    <div className="flex items-center">
-                      <button
-                        type="button"
-                        onClick={() => handleQuantityChange("decrement")}
-                        className="px-3 py-2 bg-gray-200 text-gray-700 rounded-l-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        disabled={quantity <= 1}
-                      >
-                        -
-                      </button>
-                      <div className="px-4 py-2 bg-gray-100 text-center w-full">
-                        {quantity}
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => handleQuantityChange("increment")}
-                        className="px-3 py-2 bg-gray-200 text-gray-700 rounded-r-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      >
-                        +
-                      </button>
-                    </div>
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      value={quantity}
+                      onChange={handleQuantityChange}
+                      onBlur={handleQuantityBlur}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                      required
+                    />
+                    <p className="mt-1 text-xs text-gray-500">
+                      Minimum quantity: 1
+                    </p>
                   </div>
                 </div>
 
@@ -202,17 +226,22 @@ const ConfirmationPage = () => {
                       Order Type <span className="text-red-500">*</span>
                     </legend>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {["invitation", "pamphlets", "bill", "flex", "other"].map((key) => (
-                        <div key={key} className="flex items-center">
+                      {[
+                        { id: "invitation", label: "Invitation Card" },
+                        { id: "pamphlets", label: "Pamphlets" },
+                        { id: "bill", label: "Bill/Receipt Book" },
+                        { id: "flex", label: "Flex/Banner" },
+                        { id: "other", label: "Other" }
+                      ].map((item) => (
+                        <div key={item.id} className="flex items-center">
                           <input
-                            id={key}
-                            name={key}
+                            id={item.id}
+                            name={item.id}
                             type="checkbox"
                             className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                           />
-                          <label htmlFor={key} className="ml-3 block text-sm font-medium text-gray-700">
-                            {key === "bill" ? "Bill / Receipt Book" : 
-                             key.charAt(0).toUpperCase() + key.slice(1)}
+                          <label htmlFor={item.id} className="ml-3 block text-sm font-medium text-gray-700">
+                            {item.label}
                           </label>
                         </div>
                       ))}
@@ -243,7 +272,7 @@ const ConfirmationPage = () => {
                         <svg className="-ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                         </svg>
-                        Confirm Order
+                        Confirm Order via WhatsApp
                       </>
                     )}
                   </button>
