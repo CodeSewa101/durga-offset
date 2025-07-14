@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import invitationCard1 from "../../assets/Digital Card/card-13.0.png";
+import invitationCard1 from "../../assets/images/homepage-Invitation.jpg";
 
-import offsetMachine from "../../assets/images/Offset-Print-1.jpg";
-import flexprint4 from "../../assets/images/flex-print-4.jpg";
+import offsetMachine from "../../assets/images/homepage-offset.jpg";
+import flexprint4 from "../../assets/images/homepage-flex.jpg";
 
 const PrintingShop = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -119,13 +119,13 @@ const PrintingShop = () => {
       <div className="relative w-full max-w-sm mx-auto lg:max-w-none lg:mx-0">
         <div className="animate-float">
           {/* Main Image Container */}
-          <div className="relative w-full max-w-xs mx-auto sm:max-w-sm lg:w-80 h-72 sm:h-80 lg:h-96 bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg shadow-2xl overflow-hidden border-4 border-white/10">
+          <div className="relative w-full max-w-xs mx-auto sm:max-w-sm lg:w-80 h-75 sm:h-80 lg:h-96 bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg shadow-2xl overflow-hidden border-4 border-white/10">
             {/* Primary Image */}
             <div className="relative h-full">
               <img
                 src={getImageSrc(currentImageIndex)}
                 alt={`Printing sample ${currentImageIndex + 1}`}
-                className={`w-full h-full object-cover transition-all duration-1000 ease-out ${
+                className={`w-full h-full object-fill transition-all duration-1000 ease-out ${
                   isImageLoaded(currentImageIndex)
                     ? "opacity-100 scale-100"
                     : "opacity-0 scale-105"
