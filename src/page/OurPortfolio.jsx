@@ -6,13 +6,13 @@ import offsetPrint2 from "../assets/images/Hotel Register-1.png";
 import offsetPrint3 from "../assets/images/Leaflet Wall poster-1.png";
 import offsetPrint4 from "../assets/images/Challan Book-1.png";
 
-import flexMachine from "../assets/images/flex-machine.jpg";
+import flexMachine from "../assets/images/portfolio-flex-machine.png";
 import flexprint1 from "../assets/images/flex-print-1.jpg";
 import flexprint2 from "../assets/images/flex-print-2.jpg";
 import flexprint3 from "../assets/images/flex-print-3.jpg";
 import flexprint4 from "../assets/images/flex-print-4.jpg";
 
-import digitalMachine from "../assets/images/digital-print.png";
+import digitalMachine from "../assets/images/portfolio-digital-machine.jpg";
 import digitalPrint1 from "../assets/Digital Card/card-7.png";
 import digitalPrint2 from "../assets/Digital Card/card-11.png";
 import digitalPrint3 from "../assets/Digital Card/card-12.png";
@@ -78,7 +78,7 @@ const OurPortfolio = () => {
         <img
           src={machine.image}
           alt={machine.name}
-          className="w-full h-80 object-cover rounded-2xl shadow-lg transition-transform duration-300 hover:scale-105 cursor-pointer"
+          className="w-full h-120 object-cover rounded-2xl shadow-lg transition-transform duration-300 hover:scale-105 cursor-pointer max-[450px]:object-center "
           onClick={() => setSelectedImage(machine.image)}
         />
       </div>
@@ -117,7 +117,7 @@ const OurPortfolio = () => {
               <img
                 src={image}
                 alt="Proof Work"
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                className="w-full h-full object-fill hover:scale-105 transition-transform duration-300"
               />
             </div>
           ))}
