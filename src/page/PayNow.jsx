@@ -39,22 +39,6 @@ const PayNowPage = () => {
         `}
       </style>
 
-      {/* Floating Ovals */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div
-          className="absolute w-32 h-12 bg-white bg-opacity-10 rounded-full top-[10%] left-[10%]"
-          style={{ animation: "bounceX 6s infinite", animationDelay: "0s" }}
-        />
-        <div
-          className="absolute w-40 h-16 bg-white bg-opacity-10 rounded-full top-[60%] right-[10%]"
-          style={{ animation: "bounceX 6s infinite", animationDelay: "2s" }}
-        />
-        <div
-          className="absolute w-28 h-10 bg-white bg-opacity-10 rounded-full bottom-[20%] left-[15%]"
-          style={{ animation: "bounceX 6s infinite", animationDelay: "4s" }}
-        />
-      </div>
-
       {/* Notification */}
       {notification && (
         <div className="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded-lg z-50 font-medium text-sm shadow-lg">
