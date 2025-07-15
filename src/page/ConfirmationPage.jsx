@@ -1,20 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const ConfirmationPage = () => {
   const location = useLocation();
-  const image = location.state?.image;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [quantity, setQuantity] = useState("1");
+  
+  // Debug the received state
+  useEffect(() => {
+    console.log("Location state:", location.state);
+  }, [location.state]);
 
-  // WhatsApp configuration - Owner's verified number
-  const SHOP_OWNER_WHATSAPP = "8984564222"; 
+  // Safely get image data with defaults
+  const image = location.state?.image || {
+    url: null,
+    title: "Untitled Design",
+    description: "No description available"
+  };
+
+  // WhatsApp configuration
+  const SHOP_OWNER_WHATSAPP = "8249814359"; 
   const COUNTRY_CODE = "91"; // India
 
   const sendWhatsAppMessage = (orderData) => {
-    // Format selected items with proper labels
     const orderTypes = [
       { key: "invitation", label: "Invitation Card" },
       { key: "pamphlets", label: "Pamphlets" },
@@ -23,7 +33,6 @@ const ConfirmationPage = () => {
       { key: "other", label: "Other" }
     ].filter(type => orderData[type.key]).map(type => type.label);
 
-    // Create perfectly formatted WhatsApp message
     const messageLines = [
       "🌟 *NEW ORDER CONFIRMATION* 🌟",
       "",
@@ -37,20 +46,14 @@ const ConfirmationPage = () => {
       "",
       "🎨 *Design Info:*",
       `- Title: ${orderData.designTitle}`,
-      `- Reference: ${orderData.designUrl ? "Attached" : "Not provided"}`
+      orderData.designUrl 
+        ? `- Reference: ${orderData.designUrl}`
+        : "- Reference: No image provided"
     ];
 
-    // Encode message for URL
     const encodedMessage = encodeURIComponent(messageLines.join("\n"));
-    
-    // Create WhatsApp URL with safety checks
     const whatsappUrl = `https://wa.me/${COUNTRY_CODE}${SHOP_OWNER_WHATSAPP}?text=${encodedMessage}`;
     
-    // Debugging
-    console.debug("WhatsApp Message:", messageLines.join("\n"));
-    console.debug("Generated URL:", whatsappUrl);
-
-    // Open WhatsApp in new tab
     window.open(
       whatsappUrl,
       "_blank",
@@ -63,7 +66,6 @@ const ConfirmationPage = () => {
     setIsSubmitting(true);
 
     try {
-      // Validate and collect form data
       const form = e.target;
       const orderData = {
         name: form.name.value.trim(),
@@ -75,19 +77,16 @@ const ConfirmationPage = () => {
         flex: form.flex.checked,
         other: form.other.checked,
         quantity: Math.max(1, parseInt(quantity) || 1),
-        designTitle: image?.title || "Untitled Design",
-        designUrl: image?.url || null
+        designTitle: image.title,
+        designUrl: image.url || null
       };
 
-      // Verify critical data
       if (!orderData.name || !orderData.whatsapp) {
         throw new Error("Name and WhatsApp are required");
       }
 
-      // Send to WhatsApp
       sendWhatsAppMessage(orderData);
       
-      // Success feedback
       toast.success("✅ Order confirmed! Opening WhatsApp...", {
         autoClose: 3000
       });
@@ -103,8 +102,8 @@ const ConfirmationPage = () => {
   };
 
   const handleQuantityChange = (e) => {
-    const value = e.target.value.replace(/\D/g, ""); // Numbers only
-    setQuantity(value || "1"); // Default to 1 if empty
+    const value = e.target.value.replace(/\D/g, "");
+    setQuantity(value || "1");
   };
 
   const handleQuantityBlur = () => {
@@ -127,7 +126,8 @@ const ConfirmationPage = () => {
 
         <div className="bg-white shadow-xl rounded-lg overflow-hidden">
           <div className="md:flex">
-            {image && (
+            {/* Image Section - Only shows if URL exists */}
+            {image?.url ? (
               <div className="md:w-1/2 p-6 bg-gradient-to-b from-blue-50 to-gray-50 flex flex-col items-center justify-center">
                 <div className="relative w-full max-w-xs mx-auto">
                   <img
@@ -141,16 +141,35 @@ const ConfirmationPage = () => {
                 </div>
                 <div className="mt-6 text-center">
                   <h2 className="text-2xl font-bold text-gray-800">
-                    {image.title || "Untitled Design"}
+                    {image.title}
                   </h2>
                   <p className="mt-2 text-gray-600">
-                    {image.description || "No description available"}
+                    {image.description}
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className="md:w-1/2 p-6 bg-gradient-to-b from-blue-50 to-gray-50 flex flex-col items-center justify-center">
+                <div className="relative w-full max-w-xs mx-auto">
+                  <img
+                    src="https://placehold.co/300x400?text=No+Design+Selected"
+                    alt="No Design Selected"
+                    className="w-full h-auto rounded-lg shadow-lg border-4 border-white"
+                  />
+                </div>
+                <div className="mt-6 text-center">
+                  <h2 className="text-2xl font-bold text-gray-800">
+                    {image.title}
+                  </h2>
+                  <p className="mt-2 text-gray-600">
+                    {image.description}
                   </p>
                 </div>
               </div>
             )}
 
-            <div className={`${image ? 'md:w-1/2' : 'w-full'} p-8`}>
+            {/* Form Section */}
+            <div className={`${image?.url ? 'md:w-1/2' : 'w-full'} p-8`}>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                   <div className="sm:col-span-2">
