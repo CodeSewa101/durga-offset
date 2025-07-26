@@ -13,6 +13,7 @@
     "@emailjs/browser": "^4.4.1",
     "@tailwindcss/vite": "^4.1.11",
     "axios": "^1.10.0",
+    "browser-image-compression": "^2.0.2",
     "firebase": "^11.10.0",
     "framer-motion": "^12.23.3",
     "jszip": "^3.10.1",
