@@ -133,7 +133,7 @@ const ContactPage = () => {
                     Address
                   </h3>
                   <p className="text-white/90 leading-relaxed">
-                    Spectrum Apartment, Near R.C Church Road, Brahmapur, Odisha
+                    R.C Church Road, Near Kalimani Residency , Brahmapur, Odisha
                     760001
                   </p>
                 </div>

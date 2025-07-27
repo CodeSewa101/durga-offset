@@ -12,7 +12,6 @@ const OffsetPrint = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedTitle, setSelectedTitle] = useState("");
   const [selectedDesc, setSelectedDesc] = useState("");
-  const [hoveredCard, setHoveredCard] = useState(null);
   const galleryRef = useRef(null);
 
   const navigate = useNavigate();
@@ -47,7 +46,7 @@ const OffsetPrint = () => {
     item.imageUrls.map((url, idx) => ({
       id: `${item.id}-${idx}`,
       url,
-      title: item.title || `Design ${idx + 1}`,
+      title: item.title || "Offset Print Design",
       description: item.description || "Professional offset print design",
       category: item.category || "Offset Print"
     }))
@@ -72,20 +71,17 @@ const OffsetPrint = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Powerful Hero Section */}
+      {/* Hero Section */}
       <div className="relative isolate overflow-hidden bg-gradient-to-br from-[#0a192f] via-[#0f4a7a] to-[#1a759f] py-36 px-6 sm:px-10 lg:px-20 text-center">
-        {/* Animated gradient background */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <div className="absolute top-[-20%] left-[-20%] w-[150%] h-[150%] animate-spin-slow">
             <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(10,25,47,0.8)_0%,_transparent_70%)]"></div>
             <div className="absolute top-0 left-0 w-full h-full bg-[conic-gradient(from_90deg_at_50%_50%,_rgba(26,117,159,0.5)_0%,_rgba(15,74,122,0.5)_25%,_rgba(10,25,47,0.5)_50%,_rgba(15,74,122,0.5)_75%,_rgba(26,117,159,0.5)_100%)] opacity-70"></div>
           </div>
           
-          {/* Light effects */}
           <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-cyan-400/10 blur-3xl animate-pulse-slow"></div>
           <div className="absolute bottom-1/3 right-1/3 w-80 h-80 rounded-full bg-blue-400/10 blur-3xl animate-pulse-slow animation-delay-2000"></div>
           
-          {/* Grid overlay */}
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/grid-me.png')] opacity-10 mix-blend-overlay"></div>
         </div>
 
@@ -136,18 +132,6 @@ const OffsetPrint = () => {
               <span className="relative z-10">Explore Our Designs</span>
               <span className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
             </motion.button>
-            
-            {/* <motion.button
-              whileHover={{
-                scale: 1.05,
-                boxShadow: "0 10px 25px rgba(20, 184, 166, 0.3)"
-              }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => navigate("/confirmation")}
-              className="px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/30 text-white font-semibold rounded-xl text-lg shadow-xl backdrop-blur-sm transition-all"
-            >
-              <span className="relative z-10">Order Now</span>
-            </motion.button> */}
           </div>
 
           <motion.div
@@ -224,31 +208,23 @@ const OffsetPrint = () => {
               animate="show"
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
             >
-              {visibleImages.map((img, index) => (
+              {visibleImages.map((img) => (
                 <motion.div
                   key={img.id}
                   variants={item}
-                  className={`relative rounded-xl overflow-hidden shadow-lg transition-all duration-300 ${hoveredCard === index ? 'transform -translate-y-2 shadow-xl' : ''}`}
-                  onMouseEnter={() => setHoveredCard(index)}
-                  onMouseLeave={() => setHoveredCard(null)}
+                  className="relative rounded-xl overflow-hidden shadow-lg"
                 >
                   <div className="relative aspect-w-1 aspect-h-1 overflow-hidden">
                     <img
                       src={img.url}
                       alt={img.title}
-                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                      className="w-full h-full object-cover"
                       onClick={() => {
                         setSelectedImage(img.url);
                         setSelectedTitle(img.title);
                         setSelectedDesc(img.description);
                       }}
                     />
-                    <div className={`absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6 transition-opacity duration-300 ${hoveredCard === index ? 'opacity-100' : 'opacity-0'}`}>
-                      <div>
-                        <h3 className="text-white font-medium text-lg">{img.title}</h3>
-                        <p className="text-gray-300 text-sm mt-1">{img.description}</p>
-                      </div>
-                    </div>
                   </div>
                   <div className="bg-white p-4">
                     <motion.button

@@ -20,7 +20,7 @@ const Footer = () => {
         <div className="text-sm leading-relaxed">
           <h3 className="font-semibold mb-1">Address</h3>
           <p>
-            Spectrum Apartment, Near R.C Church Road,
+            R.C Church Road, Near Kalimani Residency,
             <br />
             Brahmapur, Odisha - 760001
           </p>
