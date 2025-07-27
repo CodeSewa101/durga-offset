@@ -4,7 +4,7 @@ import Logo from "../../../assets/images/sri-durga-logo.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-white text-gray-800 py-6 px-4 shadow-inner">
+    <footer className="bg-white text-gray-800 py-6 px-4">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
         {/* Logo Section */}
         <div className="flex flex-col items-center md:items-start">
@@ -58,9 +58,19 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Bottom Text */}
-      <div className="mt-6 pt-4 border-t border-gray-200 text-center text-xs text-gray-500">
-        © {new Date().getFullYear()} Sri Durga Offset. All rights reserved.
+      {/* Bottom Text - Pure white with subtle attribution */}
+      <div className="mt-6 pt-4 border-t border-gray-100 text-center">
+        <p className="text-xs text-gray-400">
+          © {new Date().getFullYear()} Sri Durga Offset • 
+          <a 
+            href="https://codesewa.in/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-gray-500 hover:text-gray-700"
+          >
+            Developed by CodeSewa
+          </a>
+        </p>
       </div>
     </footer>
   );
