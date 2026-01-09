@@ -4,6 +4,9 @@ import invitationCard1 from "../../assets/images/homepage-Invitation.jpg";
 
 import offsetMachine from "../../assets/images/homepage-offset.jpg";
 import flexprint4 from "../../assets/images/homepage-flex.jpg";
+import DigitalPrint1 from "../../assets/images/digital-print.png"
+import DigitalPrint from "../../page/DigitalPrint";
+
 
 const PrintingShop = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -40,6 +43,18 @@ const PrintingShop = () => {
       printingType: "flex-banner",
       images: [flexprint4],
     },
+    
+    {
+  id: 4,
+  title: "Digital Printing Solutions",
+  subtitle: "Fast • Sharp • Affordable",
+  description:
+    "High-quality digital printing services for visiting cards, flyers, posters, certificates, and short-run commercial prints with vibrant colors.",
+  buttons: [{ text: "DIGITAL PRINTS", link: "/digital" }],
+  printingType: "digital-print",
+  images: [DigitalPrint1], // chaaho to digital image bhi laga sakte ho
+},
+
   ];
 
   const nextSlide = () => {
@@ -63,7 +78,7 @@ const PrintingShop = () => {
   const currentSlideData = slides[currentSlide];
 
   // Single image display component
-  const SingleImageDisplay = ({ images, slideIndex }) => {
+  const SingleImageDisplay = ({ images, slideIndex ,link}) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [loadedImages, setLoadedImages] = useState(new Set());
     const [imageCache, setImageCache] = useState(new Map());
@@ -119,7 +134,15 @@ const PrintingShop = () => {
       <div className="relative w-full max-w-sm mx-auto lg:max-w-none lg:mx-0">
         <div className="animate-float">
           {/* Main Image Container */}
-          <div className="relative w-full max-w-xs mx-auto sm:max-w-sm lg:w-80 h-75 sm:h-80 lg:h-96 bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg shadow-2xl overflow-hidden border-4 border-white/10">
+          <div
+  onClick={() => navigate(link)}
+  className="relative w-full max-w-xs mx-auto sm:max-w-sm lg:w-80 h-75 sm:h-80 lg:h-96 
+             bg-gradient-to-br from-slate-800 to-slate-900 
+             rounded-lg shadow-2xl overflow-hidden 
+             border-4 border-white/10 
+             cursor-pointer"
+>
+
             {/* Primary Image */}
             <div className="relative h-full">
               <img
@@ -390,10 +413,12 @@ const PrintingShop = () => {
           {/* Mobile Layout (Stack vertically) */}
           <div className="flex flex-col lg:hidden items-center justify-center space-y-8 sm:space-y-12 py-16 sm:py-20 mt-8 sm:mt-12">
             <div className="w-full max-w-sm">
-              <SingleImageDisplay
-                images={currentSlideData.images}
-                slideIndex={currentSlide}
-              />
+             <SingleImageDisplay
+  images={currentSlideData.images}
+  slideIndex={currentSlide}
+  link={currentSlideData.buttons[0].link}
+/>
+
             </div>
 
             <div className="text-center w-full">
@@ -430,10 +455,12 @@ const PrintingShop = () => {
           {/* Desktop Layout (Side by side) */}
           <div className="hidden lg:flex items-center justify-between min-h-screen">
             <div className="flex-1 flex justify-center xl:justify-start">
-              <SingleImageDisplay
-                images={currentSlideData.images}
-                slideIndex={currentSlide}
-              />
+            <SingleImageDisplay
+  images={currentSlideData.images}
+  slideIndex={currentSlide}
+  link={currentSlideData.buttons[0].link}
+/>
+
             </div>
 
             <div className="flex-1 text-center xl:text-left xl:ml-16">
